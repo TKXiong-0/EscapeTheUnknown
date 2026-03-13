@@ -4,10 +4,11 @@ public class PlayerControler2 : MonoBehaviour, IDamage
 {
     [Header("--------------- Components ---------------")]
     [SerializeField] CharacterController controller;
-    [SerializeField] Animator characterAnimator; // Drag Dummy here
+    [SerializeField] Animator characterAnimator;
+    [SerializeField] Transform playerCamera; 
     [SerializeField] LayerMask ignoreLayer;
 
-    [Header("--------------- Controller ---------------")]
+    [Header("--------------- Movement Settings ---------------")]
     [Range(1, 20)][SerializeField] int HP = 10;
     [Range(1, 20)][SerializeField] int speed = 5;
     [Range(1, 10)][SerializeField] int sprintMod = 2;
@@ -15,7 +16,13 @@ public class PlayerControler2 : MonoBehaviour, IDamage
     [Range(1, 5)][SerializeField] int jumpTimeMax = 1;
     [Range(15, 60)][SerializeField] int Gravity = 20;
 
-    [Header("--------------- Guns ---------------")]
+    [Header("--------------- Camera Smoothing ---------------")]
+    [SerializeField] float cameraHeight = 1.4f;     // Your eye level
+    [SerializeField] float cameraNormalZ = 0.0f;    // Center of head
+    [SerializeField] float cameraSprintZ = 0.4f;    // Pushed forward during lean
+    [SerializeField] float cameraLerpSpeed = 5.0f;
+
+    [Header("--------------- Gun Settings ---------------")]
     [SerializeField] int shootDamage = 1;
     [SerializeField] int shootDis = 50;
     [SerializeField] float shootRate = 0.5f;
@@ -33,55 +40,27 @@ public class PlayerControler2 : MonoBehaviour, IDamage
 
     void Update()
     {
-        movement();
-        Sprint();
+        MovementLogic();
     }
 
-    void movement()
+    void MovementLogic()
     {
         shootTimer += Time.deltaTime;
 
-        // 1. Reset gravity when on floor
         if (controller.isGrounded)
         {
             jumpCount = 0;
-            playerVel.y = -2f; // Helps 'isGrounded' stay true
+            playerVel.y = -2f;
         }
 
-        // 2. Your Original Physics Math
         float vInput = Input.GetAxis("Vertical");
         float hInput = Input.GetAxis("Horizontal");
+        bool isSprinting = Input.GetButton("Sprint");
 
-        MoveDir = hInput * transform.right + vInput * transform.forward;
-        controller.Move(MoveDir * speed * Time.deltaTime);
+        float currentSpeed = (isSprinting && vInput > 0) ? speed * sprintMod : speed;
+        MoveDir = (hInput * transform.right) + (vInput * transform.forward);
+        controller.Move(MoveDir * currentSpeed * Time.deltaTime);
 
-        jump();
-
-        // 3. Apply Gravity
-        playerVel.y -= Gravity * Time.deltaTime;
-        controller.Move(playerVel * Time.deltaTime);
-
-        // 4. THE ONLY NEW PART: Update Animations
-        if (characterAnimator != null)
-        {
-            float animValue = vInput;
-
-            // If moving forward and Shift is held
-            if (vInput > 0 && Input.GetButton("Sprint")) animValue = 1.0f;
-            // If moving forward normally
-            else if (vInput > 0) animValue = 0.5f;
-
-            characterAnimator.SetFloat("Speed", animValue, 0.1f, Time.deltaTime);
-        }
-
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
-        {
-            shoot();
-        }
-    }
-
-    void jump()
-    {
         if (Input.GetButtonDown("Jump") && jumpCount < jumpTimeMax)
         {
             playerVel.y = jumpSpeed;
@@ -90,12 +69,30 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             if (characterAnimator != null)
                 characterAnimator.SetTrigger("JumpTrigger");
         }
-    }
 
-    void Sprint()
-    {
-        if (Input.GetButtonDown("Sprint")) speed *= sprintMod;
-        else if (Input.GetButtonUp("Sprint")) speed /= sprintMod;
+        playerVel.y -= Gravity * Time.deltaTime;
+        controller.Move(playerVel * Time.deltaTime);
+
+        if (playerCamera != null)
+        {
+
+            float targetZ = (vInput > 0 && isSprinting) ? cameraSprintZ : cameraNormalZ;
+            float currentZ = Mathf.Lerp(playerCamera.localPosition.z, targetZ, Time.deltaTime * cameraLerpSpeed);
+
+            playerCamera.localPosition = new Vector3(0, cameraHeight, currentZ);
+        }
+
+        if (characterAnimator != null)
+        {
+            float animValue = vInput;
+            if (vInput > 0) animValue = isSprinting ? 1.0f : 0.5f;
+            characterAnimator.SetFloat("Speed", animValue, 0.1f, Time.deltaTime);
+        }
+
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        {
+            shoot();
+        }
     }
 
     void shoot()
