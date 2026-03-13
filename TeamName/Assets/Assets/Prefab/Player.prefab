@@ -51,7 +51,7 @@ MonoBehaviour:
   controller: {fileID: 715044146959060855}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   HP: 10
   speed: 5
   sprintMod: 3
