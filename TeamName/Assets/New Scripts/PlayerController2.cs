@@ -38,7 +38,6 @@ public class PlayerControler2 : MonoBehaviour, IDamage
     {
         HPorigin = HP;
 
-        // Ensure the HP Bar is full at the start
         if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
         {
             GameManager.instance.playerHPBar.fillAmount = 1;
@@ -47,7 +46,6 @@ public class PlayerControler2 : MonoBehaviour, IDamage
 
     void Update()
     {
-        // Don't move or attack if the game is paused
         if (GameManager.instance != null && GameManager.instance.isPaused) return;
 
         MovementLogic();
@@ -67,12 +65,10 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         float hInput = Input.GetAxis("Horizontal");
         bool isSprinting = Input.GetButton("Sprint");
 
-        // Movement
         float currentSpeed = (isSprinting && vInput > 0) ? speed * sprintMod : speed;
         MoveDir = (hInput * transform.right) + (vInput * transform.forward);
         controller.Move(MoveDir * currentSpeed * Time.deltaTime);
 
-        // Jump Logic (Fixed for single animation)
         if (Input.GetButtonDown("Jump") && jumpCount < jumpTimeMax)
         {
             playerVel.y = jumpSpeed;
@@ -88,17 +84,14 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         playerVel.y -= Gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        // Camera Lean Logic
         if (playerCamera != null)
         {
             float targetZ = (vInput > 0 && isSprinting) ? cameraSprintZ : cameraNormalZ;
             float currentZ = Mathf.Lerp(playerCamera.localPosition.z, targetZ, Time.deltaTime * cameraLerpSpeed);
 
-            // X is 0 for center, Y is 1.4 for eye level
             playerCamera.localPosition = new Vector3(0, cameraHeight, currentZ);
         }
 
-        // Animator Speed Update
         if (characterAnimator != null)
         {
             float animValue = vInput;
@@ -106,7 +99,6 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             characterAnimator.SetFloat("Speed", animValue, 0.1f, Time.deltaTime);
         }
 
-        // Melee Attack (Fixed for single animation)
         if (Input.GetButtonDown("Fire1") && shootTimer >= attackRate)
         {
             Melee();
@@ -131,16 +123,15 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
             if (dmg != null)
             {
-                dmg.takedamage(meleeDamage);
+                dmg.takeDamage(meleeDamage);
             }
         }
     }
 
-    public void takedamage(int amount)
+    public void takeDamage(int amount)
     {
         HP -= amount;
 
-        // Update the UI HP Bar
         if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
         {
             GameManager.instance.playerHPBar.fillAmount = (float)HP / HPorigin;
