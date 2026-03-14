@@ -1,5 +1,6 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -78,6 +79,8 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> Feature-TK
     "com.unity.multiplayer.center": {
       "version": "1.0.1",
       "depth": 0,
@@ -86,6 +89,7 @@
         "com.unity.modules.uielements": "1.0.0"
       }
     },
+<<<<<<< HEAD
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.6",
       "depth": 3,
@@ -192,6 +196,8 @@
       },
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> Feature-TK
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

@@ -8,11 +8,19 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD:EscapeTheUknown_Unity/Assets/Pre-fabs/Bullet.prefab
   - component: {fileID: 3267575816976810531}
   - component: {fileID: 928653374936368551}
   - component: {fileID: 2599527523318585474}
   - component: {fileID: 1916426527820089337}
   - component: {fileID: 7585949170293663206}
+=======
+  - component: {fileID: 8889689341360216373}
+  - component: {fileID: 9034619851133117988}
+  - component: {fileID: 1441235778640833609}
+  - component: {fileID: 664341655636290162}
+  - component: {fileID: 6901314724615442616}
+>>>>>>> Feature-TK:TeamName/Assets/Assets/Prefab/Bullet.prefab
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
