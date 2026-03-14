@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:EscapeTheUknown_Unity/Assets/Levels/Test1/NavMesh-NavMesh Surface.asset.meta
+guid: cf5621284f08fe74082a5fc742d9f7a2
+========
+guid: 8e3da9cd3d33c1148b32d6f717fa74f5
+>>>>>>>> Feature-TK:EscapeTheUknown_Unity/Assets/Scenes/Base/NavMesh-NavMesh Surface.asset.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 23800000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
