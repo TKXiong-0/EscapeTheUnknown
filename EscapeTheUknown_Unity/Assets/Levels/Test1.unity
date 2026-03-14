@@ -11809,6 +11809,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: shootRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FaceTargetSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5675280855379246516, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 519.0355
