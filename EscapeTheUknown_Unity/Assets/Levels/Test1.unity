@@ -487,6 +487,22 @@ PrefabInstance:
       value: Enemy (5)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -762,6 +778,22 @@ PrefabInstance:
       value: Enemy (9)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -825,6 +857,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: Enemy (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -1929,6 +1977,22 @@ PrefabInstance:
       value: Enemy (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -2164,6 +2228,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -2759,6 +2839,22 @@ PrefabInstance:
       value: zombie_m
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -2822,6 +2918,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: Enemy (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -3027,6 +3139,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -3584,6 +3712,22 @@ PrefabInstance:
       value: zombie_m (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -3787,6 +3931,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: Enemy (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -5429,6 +5589,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5675280855379246516, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -50.687622
@@ -5489,6 +5665,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -6119,6 +6311,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -8326,6 +8534,22 @@ PrefabInstance:
       value: Enemy (6)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -9489,6 +9713,22 @@ PrefabInstance:
       value: Enemy (4)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -10048,6 +10288,22 @@ PrefabInstance:
       value: Enemy (3)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -10321,6 +10577,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -10598,6 +10870,22 @@ PrefabInstance:
       value: Enemy (7)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -10731,6 +11019,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
@@ -11536,6 +11840,22 @@ PrefabInstance:
       value: zombie_m (9)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -11970,12 +12290,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: HP
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: shootRate
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: roamDistance
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: roamPauseTime
@@ -11983,11 +12311,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: gunRotateSpeed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5675280855379246516, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12244,6 +12572,22 @@ PrefabInstance:
       value: zombie_m (4)
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -12382,6 +12726,22 @@ PrefabInstance:
     - target: {fileID: 8222086766832566, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: m_Name
       value: zombie_m (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: FOV
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: roamPauseTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: gunRotateSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: FaceTargetSpeed
