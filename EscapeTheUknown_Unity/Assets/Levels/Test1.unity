@@ -11965,6 +11965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 700706871387593764, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1166289187475432830, guid: 427a3b915d8797e448dcd8e4e7b7d0f4, type: 3}
       propertyPath: shootRate
       value: 0.5
