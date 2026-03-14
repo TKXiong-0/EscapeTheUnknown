@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerControler2 : MonoBehaviour, IDamage
 {
     [Header("--------------- Components ---------------")]
     [SerializeField] CharacterController controller;
     [SerializeField] Animator characterAnimator;
-    [SerializeField] Transform playerCamera; 
+    [SerializeField] Transform playerCamera; // This should be your CameraPivot
     [SerializeField] LayerMask ignoreLayer;
 
     [Header("--------------- Movement Settings ---------------")]
@@ -17,15 +18,15 @@ public class PlayerControler2 : MonoBehaviour, IDamage
     [Range(15, 60)][SerializeField] int Gravity = 20;
 
     [Header("--------------- Camera Smoothing ---------------")]
-    [SerializeField] float cameraHeight = 1.4f;     // Your eye level
-    [SerializeField] float cameraNormalZ = 0.0f;    // Center of head
-    [SerializeField] float cameraSprintZ = 0.4f;    // Pushed forward during lean
+    [SerializeField] float cameraHeight = 1.4f;
+    [SerializeField] float cameraNormalZ = 0.0f;
+    [SerializeField] float cameraSprintZ = 0.4f;
     [SerializeField] float cameraLerpSpeed = 5.0f;
 
     [Header("--------------- Melee Settings ---------------")]
-    [Range(1, 3)][SerializeField] int meleeDamage; // Melee usually deals more damage than a bullet
-    [Range(1, 3)][SerializeField] float meleeRange; // Short distance!
-    [Range(0.5f, 1)][SerializeField] float attackRate; // Time between swings
+    [SerializeField] int meleeDamage = 3;
+    [SerializeField] float meleeRange = 3.0f;
+    [SerializeField] float attackRate = 0.6f;
 
     int jumpCount;
     int HPorigin;
@@ -36,10 +37,19 @@ public class PlayerControler2 : MonoBehaviour, IDamage
     void Start()
     {
         HPorigin = HP;
+
+        // Ensure the HP Bar is full at the start
+        if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
+        {
+            GameManager.instance.playerHPBar.fillAmount = 1;
+        }
     }
 
     void Update()
     {
+        // Don't move or attack if the game is paused
+        if (GameManager.instance != null && GameManager.instance.isPaused) return;
+
         MovementLogic();
     }
 
@@ -57,10 +67,12 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         float hInput = Input.GetAxis("Horizontal");
         bool isSprinting = Input.GetButton("Sprint");
 
+        // Movement
         float currentSpeed = (isSprinting && vInput > 0) ? speed * sprintMod : speed;
         MoveDir = (hInput * transform.right) + (vInput * transform.forward);
         controller.Move(MoveDir * currentSpeed * Time.deltaTime);
 
+        // Jump Logic (Fixed for single animation)
         if (Input.GetButtonDown("Jump") && jumpCount < jumpTimeMax)
         {
             playerVel.y = jumpSpeed;
@@ -76,15 +88,17 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         playerVel.y -= Gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
+        // Camera Lean Logic
         if (playerCamera != null)
         {
-
             float targetZ = (vInput > 0 && isSprinting) ? cameraSprintZ : cameraNormalZ;
             float currentZ = Mathf.Lerp(playerCamera.localPosition.z, targetZ, Time.deltaTime * cameraLerpSpeed);
 
+            // X is 0 for center, Y is 1.4 for eye level
             playerCamera.localPosition = new Vector3(0, cameraHeight, currentZ);
         }
 
+        // Animator Speed Update
         if (characterAnimator != null)
         {
             float animValue = vInput;
@@ -92,6 +106,7 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             characterAnimator.SetFloat("Speed", animValue, 0.1f, Time.deltaTime);
         }
 
+        // Melee Attack (Fixed for single animation)
         if (Input.GetButtonDown("Fire1") && shootTimer >= attackRate)
         {
             Melee();
@@ -109,8 +124,10 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         }
 
         RaycastHit hit;
+        // Raycast ignores the Player layer so you don't hit yourself
         if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, meleeRange, ~ignoreLayer))
         {
+            // Look for IDamage on the hit object or its parent (useful for doors/enemies)
             IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
             if (dmg != null)
             {
@@ -119,17 +136,19 @@ public class PlayerControler2 : MonoBehaviour, IDamage
         }
     }
 
-
     public void takedamage(int amount)
     {
         HP -= amount;
 
+        // Update the UI HP Bar
         if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
         {
             GameManager.instance.playerHPBar.fillAmount = (float)HP / HPorigin;
         }
 
         if (HP <= 0 && GameManager.instance != null)
+        {
             GameManager.instance.youLose();
+        }
     }
 }

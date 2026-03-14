@@ -1,89 +1,95 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager instance;
 
+    [Header("--------------- Menus ---------------")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] TMP_Text gameGoalCountText;
 
-
+    [Header("--------------- Player Data ---------------")]
     public Image playerHPBar;
     public GameObject player;
-    public PlayerControler2 playerScript;
+    public PlayerControler2 playerScript; // Fixed name mismatch (added the '2')
     public bool isPaused;
 
     private float timeScaleOrigin;
-
     private int GameGoalCount;
 
-
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
+        // Using Awake instead of Start so it's ready before the EnemyAI
         instance = this;
         timeScaleOrigin = Time.timeScale;
+
         player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerControler2>();
+        if (player != null)
+        {
+            playerScript = player.GetComponent<PlayerControler2>();
+        }
+        else
+        {
+            Debug.LogError("GameManager: Could not find an object tagged 'Player'!");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        if(Input.GetButtonDown("Cancel"))
+        // Toggle Pause with 'Cancel' button (Esc)
+        if (Input.GetButtonDown("Cancel"))
         {
-            if(menuActive == null)
+            if (menuActive == null)
             {
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(true);
             }
-            else if(menuActive == menuPause)
+            else if (menuActive == menuPause)
             {
                 stateUnPause();
             }
         }
     }
 
-
     public void statePause()
     {
         isPaused = true;
-        Time.timeScale = 0;
+        Time.timeScale = 0; // Freeze the game world
         Cursor.visible = true;
-        Cursor. lockState = CursorLockMode.None;
-
+        Cursor.lockState = CursorLockMode.None;
     }
+
     public void stateUnPause()
     {
         isPaused = false;
-        Time.timeScale = timeScaleOrigin;
+        Time.timeScale = timeScaleOrigin; // Resume the game world
         Cursor.visible = false;
-        Cursor. lockState = CursorLockMode.Locked;
-        menuActive.SetActive(false);
-        menuActive = null;
+        Cursor.lockState = CursorLockMode.Locked;
 
+        if (menuActive != null)
+        {
+            menuActive.SetActive(false);
+            menuActive = null;
+        }
     }
 
-    public void UpdateGameGoal(int amount) 
+    public void UpdateGameGoal(int amount)
     {
         GameGoalCount += amount;
 
-        gameGoalCountText.text = GameGoalCount.ToString("F0");
+        // Update the UI text
+        if (gameGoalCountText != null)
+        {
+            gameGoalCountText.text = GameGoalCount.ToString();
+        }
 
+        // Win Condition
         if (GameGoalCount <= 0)
         {
             statePause();
@@ -98,6 +104,4 @@ public class GameManager : MonoBehaviour
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
-
-
 }
