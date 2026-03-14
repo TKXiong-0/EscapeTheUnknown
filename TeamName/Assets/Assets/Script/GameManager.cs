@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public Image playerHPBar;
     public GameObject player;
-    public PlayerControler playerScript;
+    public PlayerControler2 playerScript;
     public bool isPaused;
 
     private float timeScaleOrigin;
@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         timeScaleOrigin = Time.timeScale;
-        player =GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerControler>();
+        player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<PlayerControler2>();
     }
 
     // Update is called once per frame

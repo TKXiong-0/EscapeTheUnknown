@@ -22,10 +22,10 @@ public class PlayerControler2 : MonoBehaviour, IDamage
     [SerializeField] float cameraSprintZ = 0.4f;    // Pushed forward during lean
     [SerializeField] float cameraLerpSpeed = 5.0f;
 
-    [Header("--------------- Gun Settings ---------------")]
-    [SerializeField] int shootDamage = 1;
-    [SerializeField] int shootDis = 50;
-    [SerializeField] float shootRate = 0.5f;
+    [Header("--------------- Melee Settings ---------------")]
+    [Range(1, 3)][SerializeField] int meleeDamage; // Melee usually deals more damage than a bullet
+    [Range(1, 3)][SerializeField] float meleeRange; // Short distance!
+    [Range(0.5f, 1)][SerializeField] float attackRate; // Time between swings
 
     int jumpCount;
     int HPorigin;
@@ -67,7 +67,10 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             jumpCount++;
 
             if (characterAnimator != null)
+            {
+                characterAnimator.ResetTrigger("JumpTrigger");
                 characterAnimator.SetTrigger("JumpTrigger");
+            }
         }
 
         playerVel.y -= Gravity * Time.deltaTime;
@@ -89,26 +92,44 @@ public class PlayerControler2 : MonoBehaviour, IDamage
             characterAnimator.SetFloat("Speed", animValue, 0.1f, Time.deltaTime);
         }
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        if (Input.GetButtonDown("Fire1") && shootTimer >= attackRate)
         {
-            shoot();
+            Melee();
         }
     }
 
-    void shoot()
+    void Melee()
     {
         shootTimer = 0;
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDis, ~ignoreLayer))
+
+        if (characterAnimator != null)
         {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-            if (dmg != null) dmg.takedamage(shootDamage);
+            characterAnimator.ResetTrigger("MeleeTrigger");
+            characterAnimator.SetTrigger("MeleeTrigger");
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, meleeRange, ~ignoreLayer))
+        {
+            IDamage dmg = hit.collider.GetComponentInParent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.takedamage(meleeDamage);
+            }
         }
     }
+
 
     public void takedamage(int amount)
     {
         HP -= amount;
-        if (HP <= 0 && GameManager.instance != null) GameManager.instance.youLose();
+
+        if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
+        {
+            GameManager.instance.playerHPBar.fillAmount = (float)HP / HPorigin;
+        }
+
+        if (HP <= 0 && GameManager.instance != null)
+            GameManager.instance.youLose();
     }
 }

@@ -7,9 +7,6 @@ public class FPdoorInteractor : MonoBehaviour
     [SerializeField] private float maxInteractDistance = 3f;
     [SerializeField] private LayerMask interactableLayers = -1;
 
-    [Header("Input")]
-    [SerializeField] private KeyCode interactKey = KeyCode.E;
-
     private void Awake()
     {
         if(PlayerCamera == null)

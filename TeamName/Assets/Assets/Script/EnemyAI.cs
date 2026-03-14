@@ -45,16 +45,15 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        if ( agent.remainingDistance < 0.01f)
+        if (playerInRange && canSeePlayer())
         {
-            roamTimer += Time.deltaTime;
+            roamTimer = 0;
         }
-
-        if (playerInRange && !canSeePlayer())
+        else if (agent.remainingDistance > 0.05f)
         {
-            checkRoam();
+            faceTarget();
         }
-        else if (!playerInRange)
+        else
         {
             checkRoam();
         }
@@ -71,6 +70,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     void roam()
     {
         roamTimer = 0;
+        agent.isStopped = false;
         agent.stoppingDistance = 0;
 
         Vector3 ranPos = Random.insideUnitSphere * roamDistance;
@@ -83,21 +83,26 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     bool canSeePlayer()
     {
-        playerDir = GameManager.instance.player.transform.position - transform.position;
+        Vector3 playerCenter = GameManager.instance.player.transform.position + Vector3.up;
+        playerDir = playerCenter - shootPos.position;
         angleToPlayer = Vector3.Angle(playerDir, transform.forward);
 
-        Debug.DrawRay(transform.position, playerDir);  
-
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, playerDir, out hit))
+        if (Physics.Raycast(shootPos.position, playerDir, out hit))
         {
-            if(hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
             {
-                agent.SetDestination(GameManager.instance.player.transform.position);
+                float distance = Vector3.Distance(transform.position, GameManager.instance.player.transform.position);
 
-                if (agent.remainingDistance <= agent.stoppingDistance)
+                if (distance > agent.stoppingDistance)
                 {
-                    faceTarget();
+                    agent.isStopped = false; 
+                    agent.SetDestination(GameManager.instance.player.transform.position);
+                }
+                else
+                {
+                    agent.isStopped = true;  
+                    faceTarget();            
                 }
 
                 gunRotate();
@@ -107,19 +112,20 @@ public class EnemyAI : MonoBehaviour, IDamage
                 {
                     shoot();
                 }
-
-                agent.stoppingDistance = stoppingDistOrign;
                 return true;
             }
         }
 
-        agent.stoppingDistance = 0;
+        agent.isStopped = false;
+        agent.stoppingDistance = stoppingDistOrign;
         return false;
     }
     void faceTarget()
     {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime + faceTargetSpeed);
+        Vector3 faceDir = new Vector3(playerDir.x, 0, playerDir.z);
+        Quaternion targetRotation = Quaternion.LookRotation(faceDir);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, agent.angularSpeed * Time.deltaTime);
     }
 
     void gunRotate()
@@ -155,8 +161,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
 
         HP -= amount;
+        agent.isStopped = false;
 
-        agent.SetDestination(GameManager.instance.player.transform.position);
+        if (GameManager.instance != null && GameManager.instance.player != null)
+        {
+            agent.SetDestination(GameManager.instance.player.transform.position);
+        }
 
         if (HP <= 0)
         {
