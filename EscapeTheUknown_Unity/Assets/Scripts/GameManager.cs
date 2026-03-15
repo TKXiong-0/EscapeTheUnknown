@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuStart;
+
     [SerializeField] TMP_Text gameGoalCountText;
 
     public Image playerHPBar;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+
         instance = this;
         timeScaleOrigin = Time.timeScale;
         player =GameObject.FindWithTag("Player");
@@ -54,6 +57,17 @@ public class GameManager : MonoBehaviour
                 stateUnPause();
             }
         }
+    }
+
+    // will exist in new scene before the start of the first scene
+    void StartGame()
+    {
+
+        statePause();
+       
+        menuActive = menuStart;
+        menuActive.SetActive(true);
+
     }
 
 

@@ -12,7 +12,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int HP;
 
     [SerializeField] GameObject bullet;
-    
+    //[SerializeField] private GameObject zombieSpawn;
+
     [SerializeField] Transform shootPos;
     [SerializeField] Transform GunPivot;
     [SerializeField] float shootRate;
@@ -180,6 +181,11 @@ public class EnemyAI : MonoBehaviour, IDamage
             StartCoroutine(flashRed());
         }
     }
+
+    //void SpawnZombie()
+    //{
+    //    Instantiate(EnemyAI,"" ,.transform.position,);
+    //}
 
     IEnumerator flashRed()
     {
