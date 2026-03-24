@@ -6,6 +6,7 @@ public class FlickerTrigger : MonoBehaviour
 {
     [Header("References")]
     public TextMeshPro text;
+    public TextMeshPro text2;
 
     [Header("Trigger Settings")]
     public string playerTag = "Player";
@@ -26,7 +27,8 @@ public class FlickerTrigger : MonoBehaviour
     public float minOnIntensity = 5f;
     public float maxOnIntensity = 12f;
 
-    private Material mat;
+    private Material mat1;
+    private Material mat2;
     private int flickerCount = 0;
     private bool playerInside = false;
     private bool isRunning = false;
@@ -39,7 +41,8 @@ public class FlickerTrigger : MonoBehaviour
             return;
         }
 
-        mat = text.fontMaterial;
+        mat1 = text.fontMaterial;
+        mat2 = text2.fontMaterial;
         SetOn();
     }
 
@@ -90,12 +93,16 @@ public class FlickerTrigger : MonoBehaviour
 
     void SetOff()
     {
-        mat.SetColor("_FaceColor", Color.black);
+        if (mat1 != null) mat1.SetColor("_FaceColor", Color.black);
+        if (mat2 != null) mat2.SetColor("_FaceColor", Color.black);
     }
 
     void SetOn()
     {
         float intensity = Random.Range(minOnIntensity, maxOnIntensity);
-        mat.SetColor("_FaceColor", onColor * intensity);
+        Color finalColor = onColor * intensity;
+
+        if (mat1 != null) mat1.SetColor("_FaceColor", finalColor);
+        if (mat2 != null) mat2.SetColor("_FaceColor", finalColor);
     }
 }
