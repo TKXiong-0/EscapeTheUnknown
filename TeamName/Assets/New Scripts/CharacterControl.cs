@@ -1,15 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterControl : MonoBehaviour, IDamage, IPickUp
+public class PlayerController : MonoBehaviour, IDamage, IPickup
 {
     [System.Serializable]
     public class InventoryItem
     {
         public ItemType itemType;
-
-        public GunStats gunStats;
+        public gunStats gunStats;
         public MeleeStats meleeStats;
         public HealStats healStats;
     }
@@ -21,33 +21,43 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
         Heal
     }
 
-    [Header("--------------- Components ---------------")]
+    [Header("----- Components -----")]
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
-
-    [Header("--------------- Controller ---------------")]
-    [Range(1, 10)][SerializeField] int HP;
-    [Range(1, 10)][SerializeField] int speed;
-    [Range(1, 10)][SerializeField] int sprintMod;
-    [Range(1, 20)][SerializeField] int jumpSpeed;
-    [Range(1, 5)][SerializeField] int jumpTimeMax;
-    [Range(15, 56)][SerializeField] int Gravity;
-
-    [Header("--------------- Inventory ---------------")]
-    [SerializeField] List<InventoryItem> inventory = new List<InventoryItem>();
     [SerializeField] GameObject heldItemModel;
 
-    [Header("--------------- Audio ---------------")]
+    [Header("----- Player Stats -----")]
+    [SerializeField] int HP = 10;
+    [SerializeField] int speed = 5;
+    [SerializeField] int sprintMod = 2;
+    [SerializeField] int jumpSpeed = 10;
+    [SerializeField] int jumpTimesMax = 2;
+    [SerializeField] int gravity = 20;
+
+    [Header("----- Stamina -----")]
+    [SerializeField] Image staminaBar;
+    [SerializeField] float stamina = 100f;
+    [SerializeField] float maxStamina = 100f;
+    [SerializeField] float jumpCost = 20f;
+    [SerializeField] float runCost = 15f;
+    [SerializeField] float chargeRate = 25f;
+    [SerializeField] float staminaRechargeDelay = 1f;
+
+    [Header("----- Inventory -----")]
+    [SerializeField] List<InventoryItem> inventory = new List<InventoryItem>();
+
+    [Header("----- Audio -----")]
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] audJump;
-    [SerializeField] float audJumpVol;
+    [SerializeField][Range(0f, 1f)] float audJumpVol = 0.5f;
     [SerializeField] AudioClip[] audHurt;
-    [SerializeField] float audHurtVol;
+    [SerializeField][Range(0f, 1f)] float audHurtVol = 0.5f;
     [SerializeField] AudioClip[] audStep;
-    [SerializeField] float audStepVol;
+    [SerializeField][Range(0f, 1f)] float audStepVol = 0.5f;
 
     int jumpCount;
-    int HPorigin;
+    int hpOrig;
+    int baseSpeed;
     int inventoryPos;
 
     float useTimer;
@@ -55,13 +65,18 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
     bool isPlayingStep;
     bool isSprinting;
 
-    Vector3 MoveDir;
+    Vector3 moveDir;
     Vector3 playerVel;
+
+    Coroutine rechargeRoutine;
 
     void Start()
     {
-        HPorigin = HP;
+        baseSpeed = speed;
+        hpOrig = HP;
+        stamina = maxStamina;
         spawnPlayer();
+        updateStaminaUI();
 
         if (inventory.Count > 0)
             changeItem();
@@ -69,34 +84,27 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
 
     void Update()
     {
-        if (!GameManager.instance.isPaused)
-        {
-            movement();
-            Sprint();
-        }
-    }
+        if (GameManager.instance != null && GameManager.instance.isPaused)
+            return;
 
-    IEnumerator playStep()
-    {
-        isPlayingStep = true;
-
-        if (audStep.Length > 0)
-            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-
-        if (isSprinting)
-            yield return new WaitForSeconds(0.5f);
-        else
-            yield return new WaitForSeconds(0.3f);
-
-        isPlayingStep = false;
+        movement();
+        sprint();
+        selectItem();
     }
 
     public void spawnPlayer()
     {
-        controller.transform.position = GameManager.instance.playerSpawnPos.transform.position;
-        Physics.SyncTransforms();
-        HP = HPorigin;
+        if (GameManager.instance != null && GameManager.instance.playerSpawnPos != null)
+        {
+            controller.transform.position = GameManager.instance.playerSpawnPos.transform.position;
+            Physics.SyncTransforms();
+        }
+
+        HP = hpOrig;
+        stamina = maxStamina;
+
         updatePlayerUI();
+        updateStaminaUI();
     }
 
     void movement()
@@ -109,49 +117,102 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
             playerVel.y = 0;
         }
 
-        MoveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
-        controller.Move(MoveDir * speed * Time.deltaTime);
+        moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+        controller.Move(moveDir * speed * Time.deltaTime);
 
         jump();
-        controller.Move(playerVel * Time.deltaTime);
 
-        playerVel.y -= Gravity * Time.deltaTime;
+        controller.Move(playerVel * Time.deltaTime);
+        playerVel.y -= gravity * Time.deltaTime;
 
         if (Input.GetButton("Fire1") && inventory.Count > 0 && canUseCurrentItem())
         {
             useCurrentItem();
         }
 
-        selectItem();
-
-        if (MoveDir.normalized.magnitude > 0.3f && !isPlayingStep)
+        if (moveDir.normalized.magnitude > 0.3f && controller.isGrounded && !isPlayingStep)
             StartCoroutine(playStep());
     }
 
     void jump()
     {
-        if (Input.GetButtonDown("Jump") && jumpCount < jumpTimeMax)
+        if (Input.GetButtonDown("Jump") && jumpCount < jumpTimesMax && stamina >= jumpCost)
         {
             playerVel.y = jumpSpeed;
             jumpCount++;
+
+            useStamina(jumpCost);
 
             if (audJump.Length > 0)
                 aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
         }
     }
 
-    void Sprint()
+    void sprint()
     {
-        if (Input.GetButtonDown("Sprint"))
+        bool tryingToSprint = Input.GetButton("Sprint") && moveDir.magnitude > 0.1f;
+
+        if (tryingToSprint && stamina > 0f)
         {
-            speed *= sprintMod;
+            speed = baseSpeed * sprintMod;
             isSprinting = true;
+
+            useStamina(runCost * Time.deltaTime);
         }
-        else if (Input.GetButtonUp("Sprint"))
+        else
         {
-            speed /= sprintMod;
+            speed = baseSpeed;
             isSprinting = false;
         }
+    }
+
+    void useStamina(float amount)
+    {
+        stamina -= amount;
+        if (stamina < 0f)
+            stamina = 0f;
+
+        updateStaminaUI();
+        restartStaminaRecharge();
+    }
+
+    void restartStaminaRecharge()
+    {
+        if (rechargeRoutine != null)
+            StopCoroutine(rechargeRoutine);
+
+        rechargeRoutine = StartCoroutine(rechargeStamina());
+    }
+
+    IEnumerator rechargeStamina()
+    {
+        yield return new WaitForSeconds(staminaRechargeDelay);
+
+        while (stamina < maxStamina)
+        {
+            if (Input.GetButton("Sprint") && moveDir.magnitude > 0.1f)
+                yield break;
+
+            stamina += chargeRate * Time.deltaTime;
+
+            if (stamina > maxStamina)
+                stamina = maxStamina;
+
+            updateStaminaUI();
+            yield return null;
+        }
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0)
+            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+
+        yield return new WaitForSeconds(isSprinting ? 0.3f : 0.45f);
+
+        isPlayingStep = false;
     }
 
     bool canUseCurrentItem()
@@ -171,8 +232,8 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
 
             case ItemType.Heal:
                 return currentItem.healStats != null &&
-                       useTimer >= 0.2f &&
-                       HP < HPorigin;
+                       HP < hpOrig &&
+                       useTimer >= 0.2f;
 
             default:
                 return false;
@@ -199,18 +260,18 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
         }
     }
 
-    void shootGun(GunStats gun)
+    void shootGun(gunStats gun)
     {
-        if (gun == null) return;
+        if (gun == null)
+            return;
 
-        useTimer = 0;
+        useTimer = 0f;
         gun.ammoCur--;
 
-        if (gun.shootSound.Length > 0)
-            aud.PlayOneShot(gun.shootSound[Random.Range(0, gun.shootSound.Length)], gun.shootSoundVel);
+        if (gun.shootSound != null && gun.shootSound.Length > 0)
+            aud.PlayOneShot(gun.shootSound[Random.Range(0, gun.shootSound.Length)], gun.shootSoundVol);
 
         RaycastHit hit;
-
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, gun.shootDistance, ~ignoreLayer))
         {
             if (gun.hitEffect != null)
@@ -218,21 +279,21 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
             if (dmg != null)
-                dmg.takedamage(gun.shootDamage);
+                dmg.takeDamage(gun.shootDamage);
         }
     }
 
     void swingMelee(MeleeStats melee)
     {
-        if (melee == null) return;
+        if (melee == null)
+            return;
 
-        useTimer = 0;
+        useTimer = 0f;
 
-        if (melee.swingSound.Length > 0)
+        if (melee.swingSound != null && melee.swingSound.Length > 0)
             aud.PlayOneShot(melee.swingSound[Random.Range(0, melee.swingSound.Length)], melee.swingSoundVol);
 
         RaycastHit hit;
-
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, melee.meleeRange, ~ignoreLayer))
         {
             if (melee.hitEffect != null)
@@ -240,26 +301,26 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
             if (dmg != null)
-                dmg.takedamage(melee.meleeDamage);
+                dmg.takeDamage(melee.meleeDamage);
         }
     }
 
     void useHeal(HealStats heal)
     {
-        if (heal == null) return;
+        if (heal == null)
+            return;
 
-        useTimer = 0;
+        useTimer = 0f;
 
         HP += heal.healAmount;
-        if (HP > HPorigin)
-            HP = HPorigin;
+        if (HP > hpOrig)
+            HP = hpOrig;
 
         updatePlayerUI();
 
-        if (heal.healSound.Length > 0)
+        if (heal.healSound != null && heal.healSound.Length > 0)
             aud.PlayOneShot(heal.healSound[Random.Range(0, heal.healSound.Length)], heal.healSoundVol);
 
-        // one-time use heal item
         inventory.RemoveAt(inventoryPos);
 
         if (inventory.Count == 0)
@@ -276,33 +337,46 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
         }
     }
 
-    public void takedamage(int amount)
+    public void takeDamage(int amount)
     {
         HP -= amount;
+        if (HP < 0)
+            HP = 0;
+
         updatePlayerUI();
 
-        if (audHurt.Length > 0)
+        if (audHurt != null && audHurt.Length > 0)
             aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
 
         StartCoroutine(flashDamage());
 
-        if (HP <= 0)
+        if (HP <= 0 && GameManager.instance != null)
             GameManager.instance.youLose();
     }
 
     IEnumerator flashDamage()
     {
-        GameManager.instance.DamagePlayerFlash.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        GameManager.instance.DamagePlayerFlash.SetActive(false);
+        if (GameManager.instance != null && GameManager.instance.damagePlayerFlash != null)
+        {
+            GameManager.instance.damagePlayerFlash.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            GameManager.instance.damagePlayerFlash.SetActive(false);
+        }
     }
 
     public void updatePlayerUI()
     {
-        GameManager.instance.playerHPBar.fillAmount = (float)HP / HPorigin;
+        if (GameManager.instance != null && GameManager.instance.playerHPBar != null)
+            GameManager.instance.playerHPBar.fillAmount = (float)HP / hpOrig;
     }
 
-    public void getGunStats(GunStats gun)
+    void updateStaminaUI()
+    {
+        if (staminaBar != null)
+            staminaBar.fillAmount = stamina / maxStamina;
+    }
+
+    public void getGunStats(gunStats gun)
     {
         InventoryItem newItem = new InventoryItem();
         newItem.itemType = ItemType.Gun;
@@ -335,6 +409,23 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
         changeItem();
     }
 
+    void selectItem()
+    {
+        if (inventory.Count == 0)
+            return;
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && inventoryPos < inventory.Count - 1)
+        {
+            inventoryPos++;
+            changeItem();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && inventoryPos > 0)
+        {
+            inventoryPos--;
+            changeItem();
+        }
+    }
+
     void changeItem()
     {
         if (inventory.Count == 0 || heldItemModel == null)
@@ -361,7 +452,8 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
                 break;
         }
 
-        if (modelToUse == null) return;
+        if (modelToUse == null)
+            return;
 
         MeshFilter heldFilter = heldItemModel.GetComponent<MeshFilter>();
         MeshRenderer heldRenderer = heldItemModel.GetComponent<MeshRenderer>();
@@ -373,11 +465,14 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
             heldFilter.sharedMesh = newFilter.sharedMesh;
 
         if (heldRenderer != null && newRenderer != null)
-            heldRenderer.sharedMaterial = newRenderer.sharedMaterial;
+            heldRenderer.sharedMaterials = newRenderer.sharedMaterials;
     }
 
     void clearHeldItem()
     {
+        if (heldItemModel == null)
+            return;
+
         MeshFilter heldFilter = heldItemModel.GetComponent<MeshFilter>();
         MeshRenderer heldRenderer = heldItemModel.GetComponent<MeshRenderer>();
 
@@ -385,22 +480,6 @@ public class CharacterControl : MonoBehaviour, IDamage, IPickUp
             heldFilter.sharedMesh = null;
 
         if (heldRenderer != null)
-            heldRenderer.sharedMaterial = null;
-    }
-
-    void selectItem()
-    {
-        if (inventory.Count == 0) return;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && inventoryPos < inventory.Count - 1)
-        {
-            inventoryPos++;
-            changeItem();
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && inventoryPos > 0)
-        {
-            inventoryPos--;
-            changeItem();
-        }
+            heldRenderer.sharedMaterials = new Material[0];
     }
 }
