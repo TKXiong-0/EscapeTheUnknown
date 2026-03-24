@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2e0820946236c46922fad203e436c3, type: 3}
   m_Name: New Gun Stats
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 0}
+  gunModel: {fileID: 919132149155446097, guid: fdf00ae655c6f9d4abac02c38bd47b3e, type: 3}
   shootDamage: 3
   shootDistance: 15
   shootRate: 0.8
-  ammoCur: 12
+  ammoCur: 10
   ammoMax: 12
   hitEffect: {fileID: 0}
   shootSound: []

@@ -25,6 +25,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] GameObject heldItemModel;
+    GameObject currentHeldObject;
+    [SerializeField] Animator playerAnim;
+
+    [Header("----- Animation Parameters -----")]
+    [SerializeField] string gunShootTrigger = "GunShoot";
+    [SerializeField] string reloadTrigger = "Reload";
+    [SerializeField] string speedFloat = "Speed";
+    [SerializeField] string jumpTrigger = "JumpTrig";
+    [SerializeField] string meleeTrigger = "MeleeTrig";
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP = 10;
@@ -64,11 +73,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     bool isPlayingStep;
     bool isSprinting;
+    bool isReloading;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
     Coroutine rechargeRoutine;
+    Coroutine reloadRoutine;
 
     void Start()
     {
@@ -90,6 +101,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         movement();
         sprint();
         selectItem();
+        handleReloadInput();
+        updateAnimatorMovement();
     }
 
     public void spawnPlayer()
@@ -102,6 +115,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
         HP = hpOrig;
         stamina = maxStamina;
+        isReloading = false;
 
         updatePlayerUI();
         updateStaminaUI();
@@ -125,7 +139,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         controller.Move(playerVel * Time.deltaTime);
         playerVel.y -= gravity * Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && inventory.Count > 0 && canUseCurrentItem())
+        if (!isReloading && Input.GetButton("Fire1") && inventory.Count > 0 && canUseCurrentItem())
         {
             useCurrentItem();
         }
@@ -143,7 +157,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             useStamina(jumpCost);
 
-            if (audJump.Length > 0)
+            if (playerAnim != null)
+                playerAnim.SetTrigger(jumpTrigger);
+
+            if (audJump != null && audJump.Length > 0)
                 aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
         }
     }
@@ -156,7 +173,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             speed = baseSpeed * sprintMod;
             isSprinting = true;
-
             useStamina(runCost * Time.deltaTime);
         }
         else
@@ -164,6 +180,42 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             speed = baseSpeed;
             isSprinting = false;
         }
+    }
+
+    void handleReloadInput()
+    {
+        if (inventory.Count == 0 || isReloading)
+            return;
+
+        InventoryItem currentItem = inventory[inventoryPos];
+
+        if (currentItem.itemType != ItemType.Gun || currentItem.gunStats == null)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (currentItem.gunStats.ammoCur < currentItem.gunStats.ammoMax)
+            {
+                if (reloadRoutine != null)
+                    StopCoroutine(reloadRoutine);
+
+                reloadRoutine = StartCoroutine(reloadGun(currentItem.gunStats));
+            }
+        }
+    }
+
+    IEnumerator reloadGun(gunStats gun)
+    {
+        isReloading = true;
+
+        if (playerAnim != null)
+            playerAnim.SetTrigger(reloadTrigger);
+
+        // change this if your reload animation is longer/shorter
+        yield return new WaitForSeconds(1.0f);
+
+        gun.ammoCur = gun.ammoMax;
+        isReloading = false;
     }
 
     void useStamina(float amount)
@@ -207,12 +259,21 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         isPlayingStep = true;
 
-        if (audStep.Length > 0)
+        if (audStep != null && audStep.Length > 0)
             aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
 
         yield return new WaitForSeconds(isSprinting ? 0.3f : 0.45f);
 
         isPlayingStep = false;
+    }
+
+    void updateAnimatorMovement()
+    {
+        if (playerAnim == null)
+            return;
+
+        float currentSpeed = moveDir.magnitude;
+        playerAnim.SetFloat(speedFloat, currentSpeed);
     }
 
     bool canUseCurrentItem()
@@ -262,11 +323,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     void shootGun(gunStats gun)
     {
-        if (gun == null)
+        if (gun == null || isReloading)
             return;
 
         useTimer = 0f;
         gun.ammoCur--;
+
+        if (playerAnim != null)
+            playerAnim.SetTrigger(gunShootTrigger);
 
         if (gun.shootSound != null && gun.shootSound.Length > 0)
             aud.PlayOneShot(gun.shootSound[Random.Range(0, gun.shootSound.Length)], gun.shootSoundVol);
@@ -289,6 +353,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             return;
 
         useTimer = 0f;
+
+        if (playerAnim != null)
+            playerAnim.SetTrigger(meleeTrigger);
 
         if (melee.swingSound != null && melee.swingSound.Length > 0)
             aud.PlayOneShot(melee.swingSound[Random.Range(0, melee.swingSound.Length)], melee.swingSoundVol);
@@ -428,7 +495,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     void changeItem()
     {
-        if (inventory.Count == 0 || heldItemModel == null)
+        if (heldItemModel == null)
+            return;
+
+        if (currentHeldObject != null)
+            Destroy(currentHeldObject);
+
+        if (inventory.Count == 0)
             return;
 
         GameObject modelToUse = null;
@@ -455,31 +528,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         if (modelToUse == null)
             return;
 
-        MeshFilter heldFilter = heldItemModel.GetComponent<MeshFilter>();
-        MeshRenderer heldRenderer = heldItemModel.GetComponent<MeshRenderer>();
-
-        MeshFilter newFilter = modelToUse.GetComponent<MeshFilter>();
-        MeshRenderer newRenderer = modelToUse.GetComponent<MeshRenderer>();
-
-        if (heldFilter != null && newFilter != null)
-            heldFilter.sharedMesh = newFilter.sharedMesh;
-
-        if (heldRenderer != null && newRenderer != null)
-            heldRenderer.sharedMaterials = newRenderer.sharedMaterials;
+        currentHeldObject = Instantiate(modelToUse, heldItemModel.transform);
+        currentHeldObject.transform.localPosition = Vector3.zero;
+        currentHeldObject.transform.localRotation = Quaternion.identity;
+        currentHeldObject.transform.localScale = Vector3.one;
     }
 
     void clearHeldItem()
     {
-        if (heldItemModel == null)
-            return;
-
-        MeshFilter heldFilter = heldItemModel.GetComponent<MeshFilter>();
-        MeshRenderer heldRenderer = heldItemModel.GetComponent<MeshRenderer>();
-
-        if (heldFilter != null)
-            heldFilter.sharedMesh = null;
-
-        if (heldRenderer != null)
-            heldRenderer.sharedMaterials = new Material[0];
+        if (currentHeldObject != null)
+            Destroy(currentHeldObject);
     }
 }
