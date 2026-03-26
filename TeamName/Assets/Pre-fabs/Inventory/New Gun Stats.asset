@@ -18,10 +18,10 @@ MonoBehaviour:
   shootRate: 0.8
   shootDistance: 15
   ammoMax: 12
-  ammoCur: 12
+  ammoCur: 0
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0
-  holdPosition: {x: 0.007, y: 0.018, z: -5.69}
+  holdPosition: {x: 0.009, y: -0.012, z: -0.137}
   holdRotation: {x: 4.647, y: -76.149, z: 0.12}
   holdScale: {x: 1.3, y: 1.3, z: 1.3}

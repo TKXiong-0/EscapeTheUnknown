@@ -28,6 +28,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] Transform rightHandSocket;
     [SerializeField] Transform leftHandSocket;
 
+    [Header("----- Interaction -----")]
+    [SerializeField] Camera playerCamera;
+    [SerializeField] float interactDistance = 3f;
+    [SerializeField] LayerMask interactableLayers = -1;
+
     [Header("----- Animation Parameters -----")]
     [SerializeField] string speedFloat = "Speed";
     [SerializeField] string jumpTrigger = "JumpTrig";
@@ -89,6 +94,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         if (controller == null)
             controller = GetComponent<CharacterController>();
 
+        if (playerCamera == null)
+            playerCamera = Camera.main;
+
         hpOrig = HP;
         baseSpeed = speed;
         stamina = maxStamina;
@@ -114,6 +122,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         selectItem();
         handleUseInput();
         handleReloadInput();
+        handleInteract();
 
         updateAnimatorMovement();
         updateSprintAnimation();
@@ -221,6 +230,27 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
         if (Input.GetKeyDown(KeyCode.R) && currentItem.gunStats.ammoCur < currentItem.gunStats.ammoMax)
             StartCoroutine(reloadGun(currentItem.gunStats));
+    }
+
+    void handleInteract()
+    {
+        if (!Input.GetButtonDown("Interact"))
+            return;
+
+        if (playerCamera == null)
+            return;
+
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactableLayers))
+        {
+            DoorController door = hit.collider.GetComponentInParent<DoorController>();
+
+            if (door != null)
+            {
+                door.ToggleDoor();
+            }
+        }
     }
 
     bool canUseCurrentItem()
@@ -456,7 +486,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 if (currentItem.healStats != null)
                 {
                     modelToSpawn = currentItem.healStats.healModel;
-                    socketToUse = leftHandSocket;
+                    socketToUse = rightHandSocket;
                     holdPosition = currentItem.healStats.holdPosition;
                     holdRotation = currentItem.healStats.holdRotation;
                     holdScale = currentItem.healStats.holdScale;
