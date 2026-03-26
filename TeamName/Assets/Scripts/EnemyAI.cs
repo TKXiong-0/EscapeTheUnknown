@@ -23,6 +23,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamPauseTime;
     [SerializeField] int roamDistance;
 
+    [SerializeField] GameObject dropItem;
+
 
     float shootTimer;
     float roamTimer;
@@ -173,6 +175,8 @@ public class EnemyAI : MonoBehaviour, IDamage
        if(HP <= 0)
         {
             GameManager.instance.UpdateGameGoal(-1);
+            if(dropItem != null)
+            Instantiate(dropItem, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
         else

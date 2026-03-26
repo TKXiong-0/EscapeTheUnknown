@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerScript;
     public GameObject playerSpawnPos;
     public GameObject checkpointPopup;
+    public GameObject KeyPopup;
     public GameObject damagePlayerFlash;
 
     public bool isPaused;
