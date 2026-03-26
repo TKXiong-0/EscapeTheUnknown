@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int HP;
 
     [SerializeField] GameObject bullet;
-    
+
     [SerializeField] Transform shootPos;
     [SerializeField] Transform GunPivot;
     [SerializeField] float shootRate;
@@ -22,6 +22,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int gunRotateSpeed;
     [SerializeField] int roamPauseTime;
     [SerializeField] int roamDistance;
+
+    [SerializeField] GameObject dropItem;
 
 
     float shootTimer;
@@ -43,11 +45,18 @@ public class EnemyAI : MonoBehaviour, IDamage
         GameManager.instance.UpdateGameGoal(1);
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 2f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!agent.isOnNavMesh) return;
 
         if (agent.remainingDistance < 0.01f)
             roamTimer += Time.deltaTime;
@@ -56,7 +65,8 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             CheckRoam();
 
-        } else if (!playerInRange)
+        }
+        else if (!playerInRange)
         {
             CheckRoam();
         }
@@ -64,15 +74,15 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void CheckRoam()
     {
-        if(agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
+        if (agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
         {
-            roam();         
+            roam();
         }
     }
 
     void roam()
     {
-        
+
         roamTimer = 0;
         agent.stoppingDistance = 0;
 
@@ -80,23 +90,25 @@ public class EnemyAI : MonoBehaviour, IDamage
         ranPos += startingPos;
 
         NavMeshHit hit;
-        NavMesh.SamplePosition(ranPos, out hit, roamDistance,1);
+        NavMesh.SamplePosition(ranPos, out hit, roamDistance, 1);
         agent.SetDestination(hit.position);
-        
+
     }
 
 
     bool CanSeePlayer()
     {
+        if (!agent.isOnNavMesh) return false;
+
         playerDir = GameManager.instance.player.transform.position - transform.position;
-        AngelToPlayer = Vector3.Angle(playerDir,transform.forward);
+        AngelToPlayer = Vector3.Angle(playerDir, transform.forward);
 
         Debug.DrawRay(transform.position, playerDir);
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, playerDir, out hit))
+        if (Physics.Raycast(transform.position, playerDir, out hit))
         {
-            if(hit.collider.CompareTag("Player") && AngelToPlayer <= FOV)
+            if (hit.collider.CompareTag("Player") && AngelToPlayer <= FOV)
             {
 
                 agent.SetDestination(GameManager.instance.player.transform.position);
@@ -170,9 +182,11 @@ public class EnemyAI : MonoBehaviour, IDamage
         HP -= amount;
         agent.SetDestination(GameManager.instance.player.transform.position);
 
-       if(HP <= 0)
+        if (HP <= 0)
         {
             GameManager.instance.UpdateGameGoal(-1);
+            if (dropItem != null)
+                Instantiate(dropItem, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
         else
