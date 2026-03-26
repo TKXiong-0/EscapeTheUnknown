@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   model: {fileID: 8975709823336153244}
+  button: {fileID: 0}
+  canOpen: 0
 --- !u!65 &3937081622417328194
 BoxCollider:
   m_ObjectHideFlags: 0

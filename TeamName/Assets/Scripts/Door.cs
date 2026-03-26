@@ -7,8 +7,7 @@ public class Door : MonoBehaviour
 {
     [SerializeField] GameObject model;
     [SerializeField] GameObject button;
-
-    bool canOpen;
+    [SerializeField] bool canOpen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,7 +18,7 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Interact") && canOpen)
+        if(Input.GetButtonDown("Interact") && canOpen )
         {
            model.SetActive(false);
         }
@@ -29,7 +28,7 @@ public class Door : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            canOpen = true; 
+    
             button.SetActive(true);
         }
     }
@@ -41,8 +40,12 @@ public class Door : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             model.SetActive(true);
-            canOpen = false;
             button.SetActive(false);
         }
+    }
+
+    public void keyPickup()
+    {
+        canOpen = true;
     }
 }
