@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: dd95fd526fbaddd4e96feb1b5b051f7f
-MonoImporter:
+guid: ea739c01c76f77d4c9d10657a70ae8ff
+NativeFormatImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
+  mainObjectFileID: 9100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +11,6 @@ AssetOrigin:
   productId: 154271
   packageName: Human Basic Motions FREE
   packageVersion: 2.4.1
-  assetPath: Assets/Kevin Iglesias/Human Animations/Scripts/SpineProxy.cs
+  assetPath: Assets/Kevin Iglesias/Human Animations/Unity Demo Scenes/Human Basic
+    Motions/AnimatorControllers/HumanF@Run01_Backward.controller
   uploadId: 825236
