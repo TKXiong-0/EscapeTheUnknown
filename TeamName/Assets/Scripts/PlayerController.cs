@@ -478,32 +478,43 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     void updateEquippedAnimation()
     {
         if (playerAnim == null)
+        {
+            Debug.Log("playerAnim is NULL");
             return;
+        }
 
         if (inventory.Count == 0)
         {
             playerAnim.SetInteger(equippedTypeInt, 0);
+            Debug.Log("EquipType set to 0 because inventory is empty");
             return;
         }
 
         InventoryItem currentItem = inventory[inventoryPos];
 
+        Debug.Log("InventoryPos: " + inventoryPos);
+        Debug.Log("Current item type: " + currentItem.itemType);
+
         switch (currentItem.itemType)
         {
             case ItemType.Gun:
                 playerAnim.SetInteger(equippedTypeInt, 1);
+                Debug.Log("EquipType set to 1 (Gun)");
                 break;
 
             case ItemType.Melee:
                 playerAnim.SetInteger(equippedTypeInt, 2);
+                Debug.Log("EquipType set to 2 (Melee)");
                 break;
 
             case ItemType.Heal:
                 playerAnim.SetInteger(equippedTypeInt, 3);
+                Debug.Log("EquipType set to 3 (Heal)");
                 break;
 
             default:
                 playerAnim.SetInteger(equippedTypeInt, 0);
+                Debug.Log("EquipType set to 0 (Default)");
                 break;
         }
     }

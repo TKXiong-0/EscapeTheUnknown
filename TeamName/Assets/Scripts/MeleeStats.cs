@@ -22,7 +22,14 @@ public class MeleeStats : ScriptableObject
     [Range(0f, 1f)] public float swingSoundVol = 0.5f;
 
     [Header("----- Hold Settings -----")]
-    public Vector3 holdPosition = Vector3.zero;
-    public Vector3 holdRotation = Vector3.zero;
-    public Vector3 holdScale = Vector3.one;
+    public Vector3 holdPosition = new Vector3(0f, 0f, 0f);
+    public Vector3 holdRotation = new Vector3(4.647f, -76.149f, 0.12f);
+    public Vector3 holdScale = new Vector3(1.3f, 1.3f, 1.3f);
+
+    private void OnValidate()
+    {
+        holdPosition = new Vector3(0f, 0f, 0f);
+        holdRotation = new Vector3(4.647f, -76.149f, 0.12f);
+        holdScale = new Vector3(1.3f, 1.3f, 1.3f);
+    }
 }
