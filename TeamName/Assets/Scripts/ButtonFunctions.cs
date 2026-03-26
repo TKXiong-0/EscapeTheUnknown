@@ -27,7 +27,7 @@ Application.Quit();
 
     public void playerSpawn()
     {
-        GameManager.instance.playerScript.SpawnPlayer();
+        GameManager.instance.playerScript.spawnPlayer();
         GameManager.instance.stateUnPause();
     }
 

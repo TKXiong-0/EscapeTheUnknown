@@ -28,7 +28,8 @@ public class CameraControler : MonoBehaviour
         {
             camRotX += mouseY;
 
-        }else
+        }
+        else
         {
             camRotX -= mouseY;
 
