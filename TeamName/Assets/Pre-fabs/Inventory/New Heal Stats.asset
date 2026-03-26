@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93807b72f557f2845ad0d623dbfbb8be, type: 3}
+  m_Name: New Heal Stats
+  m_EditorClassIdentifier: Assembly-CSharp::HealStats
+  healName: HealBottle
+  healModel: {fileID: 625242516236402489, guid: 43d697a26e4cf694fa1de5435575341d, type: 3}
+  healAmount: 3
+  useRate: 0.5
+  healSound: []
+  healSoundVol: 1
+  holdPosition: {x: 0.067, y: -0.02, z: -0.174}
+  holdRotation: {x: 4.647, y: -76.149, z: 0.12}
+  holdScale: {x: 1.3, y: 1.3, z: 1.3}

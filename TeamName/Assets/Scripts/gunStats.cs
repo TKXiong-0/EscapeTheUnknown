@@ -1,23 +1,39 @@
 using UnityEngine;
 
-
-
-[CreateAssetMenu]
-
-
+[CreateAssetMenu(fileName = "New Gun Stats", menuName = "Inventory/Gun Stats")]
 public class gunStats : ScriptableObject
 {
+    [Header("----- Gun Info -----")]
+    public string gunName;
+
+    [Header("----- Model -----")]
     public GameObject gunModel;
 
-   [Range(1,10)] public int shootDamage;
-    [Range(3, 1000)] public int shootDistance;
-    [Range(.1f, 2f)] public float shootRate;
+    [Header("----- Shooting -----")]
+    public int shootDamage = 3;
+    public float shootRate = 0.8f;
+    public float shootDistance = 15f;
 
-    public int ammoCur;
-    [Range(5, 50)] public int ammoMax;
+    [Header("----- Ammo -----")]
+    public int ammoMax = 12;
+    public int ammoCur = 12;
 
-    public ParticleSystem hitEffect;
+    [Header("----- Effects -----")]
+    public GameObject hitEffect;
+
+    [Header("----- Audio -----")]
     public AudioClip[] shootSound;
-    [Range(0, 1)] public float shootSoundVol;
+    [Range(0f, 1f)] public float shootSoundVol = 0.5f;
 
+    [Header("----- Hold Settings -----")]
+    public Vector3 holdPosition = new Vector3(0.009f, -0.012f, -0.137f);
+    public Vector3 holdRotation = new Vector3(4.647f, -76.149f, 0.12f);
+    public Vector3 holdScale = new Vector3(1.3f, 1.3f, 1.3f);
+
+    private void OnValidate()
+    {
+        holdPosition = new Vector3(0.009f, -0.012f, -0.137f);
+        holdRotation = new Vector3(4.647f, -76.149f, 0.12f);
+        holdScale = new Vector3(1.3f, 1.3f, 1.3f);
+    }
 }
