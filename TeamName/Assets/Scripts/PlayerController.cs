@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         updatePlayerUI();
         updateStaminaUI();
         updateEquippedAnimation();
+        updateEquippedItemUI();
     }
 
     void Update()
@@ -447,6 +448,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         if (inventory.Count == 0)
         {
             updateEquippedAnimation();
+            updateEquippedItemUI();
             return;
         }
 
@@ -503,6 +505,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
 
         updateEquippedAnimation();
+        updateEquippedItemUI();
     }
 
     void updateEquippedAnimation()
@@ -683,5 +686,38 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         inventory.Add(item);
         inventoryPos = inventory.Count - 1;
         changeItem();
+    }
+
+    void updateEquippedItemUI()
+    {
+        if (GameManager.instance == null)
+            return;
+
+        if (inventory.Count == 0)
+        {
+            GameManager.instance.UpdateEquippedItemUI("None");
+            return;
+        }
+
+        InventoryItem currentItem = inventory[inventoryPos];
+
+        switch (currentItem.itemType)
+        {
+            case ItemType.Gun:
+                GameManager.instance.UpdateEquippedItemUI("Gun");
+                break;
+
+            case ItemType.Melee:
+                GameManager.instance.UpdateEquippedItemUI("Melee");
+                break;
+
+            case ItemType.Heal:
+                GameManager.instance.UpdateEquippedItemUI("Heal Bottle");
+                break;
+
+            default:
+                GameManager.instance.UpdateEquippedItemUI("None");
+                break;
+        }
     }
 }

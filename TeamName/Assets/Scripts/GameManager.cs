@@ -3,18 +3,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager instance;
 
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+
+    [Header("----- UI -----")]
     [SerializeField] TMP_Text gameGoalCountText;
+    [SerializeField] TMP_Text equippedItemText;
 
     public Image playerHPBar;
     public GameObject player;
@@ -27,66 +27,70 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
 
     private float timeScaleOrigin;
-
     private int GameGoalCount;
 
-
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         instance = this;
         timeScaleOrigin = Time.timeScale;
+
         player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerController>();
+
+        if (player != null)
+            playerScript = player.GetComponent<PlayerController>();
 
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        UpdateEquippedItemUI("None");
+    }
+
     void Update()
     {
-
-        if(Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel"))
         {
-            if(menuActive == null)
+            if (menuActive == null)
             {
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(true);
-            }else if(menuActive == menuPause)
+            }
+            else if (menuActive == menuPause)
             {
                 stateUnPause();
             }
         }
     }
 
-
     public void statePause()
     {
         isPaused = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-        Cursor. lockState = CursorLockMode.None;
-
+        Cursor.lockState = CursorLockMode.None;
     }
+
     public void stateUnPause()
     {
         isPaused = false;
         Time.timeScale = timeScaleOrigin;
         Cursor.visible = false;
-        Cursor. lockState = CursorLockMode.Locked;
-        menuActive.SetActive(false);
-        menuActive = null;
+        Cursor.lockState = CursorLockMode.Locked;
 
+        if (menuActive != null)
+            menuActive.SetActive(false);
+
+        menuActive = null;
     }
 
-    public void UpdateGameGoal(int amount) 
+    public void UpdateGameGoal(int amount)
     {
         GameGoalCount += amount;
-        gameGoalCountText.text = GameGoalCount.ToString("F0");
+
+        if (gameGoalCountText != null)
+            gameGoalCountText.text = GameGoalCount.ToString("F0");
 
         if (GameGoalCount <= 0)
         {
@@ -96,12 +100,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateEquippedItemUI(string itemName)
+    {
+        if (equippedItemText == null)
+            return;
+
+        equippedItemText.text = "Equipped: " + itemName;
+    }
+
     public void youLose()
     {
         statePause();
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
-
-
 }
