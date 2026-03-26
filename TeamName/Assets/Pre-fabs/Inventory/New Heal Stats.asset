@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93807b72f557f2845ad0d623dbfbb8be, type: 3}
   m_Name: New Heal Stats
   m_EditorClassIdentifier: Assembly-CSharp::HealStats
-  healModel: {fileID: 0}
+  healModel: {fileID: 4965438261709640327, guid: a35b8c32acba1334b9b31dfe8cdbc9be, type: 3}
   healAmount: 3
   healSound: []
   healSoundVol: 1

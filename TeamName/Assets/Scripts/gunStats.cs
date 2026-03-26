@@ -1,23 +1,32 @@
 using UnityEngine;
 
-
-
-[CreateAssetMenu]
-
-
+[CreateAssetMenu(fileName = "Gun", menuName = "Items/Gun")]
 public class gunStats : ScriptableObject
 {
+    [Header("----- Gun Info -----")]
+    public string gunName;
+
+    [Header("----- Model -----")]
     public GameObject gunModel;
 
-   [Range(1,10)] public int shootDamage;
-    [Range(3, 1000)] public int shootDistance;
-    [Range(.1f, 2f)] public float shootRate;
+    [Header("----- Shooting -----")]
+    public int shootDamage = 10;
+    public float shootRate = 0.2f;
+    public float shootDistance = 100f;
 
-    public int ammoCur;
-    [Range(5, 50)] public int ammoMax;
+    [Header("----- Ammo -----")]
+    public int ammoMax = 30;
+    public int ammoCur = 30;
 
-    public ParticleSystem hitEffect;
+    [Header("----- Effects -----")]
+    public GameObject hitEffect;
+
+    [Header("----- Audio -----")]
     public AudioClip[] shootSound;
-    [Range(0, 1)] public float shootSoundVol;
+    [Range(0f, 1f)] public float shootSoundVol = 1f;
 
+    [Header("----- Hold Settings -----")]
+    public Vector3 holdPosition;
+    public Vector3 holdRotation;
+    public Vector3 holdScale = Vector3.one;
 }
